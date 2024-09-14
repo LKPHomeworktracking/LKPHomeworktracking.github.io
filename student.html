@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบนักเรียน</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .dashboard {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #2c2c2c;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            color: #f1f1f1;
+        }
+        h2, h3 {
+            color: #ffffff;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #333;
+            color: #f1f1f1;
+        }
+        table, th, td {
+            border: 1px solid #444;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #444;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #c0392b;
+        }
+        .form-container {
+            display: none;
+            margin-bottom: 20px;
+        }
+        .input-field {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <h2>เข้าสู่ระบบการตรวจงาน</h2>
+        
+        <!-- ฟอร์มให้กรอกรหัสวิชา -->
+        <div id="courseCodeForm" class="form-container">
+            <label for="courseCode">กรุณาใส่รหัสวิชา:</label>
+            <input type="text" id="courseCode" class="input-field" placeholder="I30202">
+            <button id="submitCode">ยืนยัน</button>
+        </div>
+
+        <!-- หน้าสถานะการตรวจงาน -->
+        <div id="statusSection" style="display: none;">
+            <h2>สถานะการตรวจงาน</h2>
+            <h3>ชื่อวิชา: I30202 การสื่อสารและนำเสนอ</h3>
+            <h3 id="assignmentName">ชื่องาน: รูปเล่มโครงงาน</h3>
+
+            <button id="logoutButton">ออกจากระบบ</button>
+            <table id="statusTable">
+                <thead>
+                    <tr>
+                        <th>เลขที่</th>
+                        <th>ชื่อ</th>
+                        <th>สถานะ</th>
+                        <th>คอมเม้น</th>
+                        <th>เวลาตรวจ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- ข้อมูลจะถูกเพิ่มที่นี่ -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const validCourseCode = 'I30202';
+            
+            // แสดงฟอร์มรหัสวิชา
+            const courseCodeForm = document.getElementById('courseCodeForm');
+            const statusSection = document.getElementById('statusSection');
+            courseCodeForm.style.display = 'block';
+
+            // เพิ่มฟังก์ชันตรวจสอบรหัสวิชา
+            document.getElementById('submitCode').addEventListener('click', function() {
+                const inputCode = document.getElementById('courseCode').value;
+                
+                if (inputCode === validCourseCode) {
+                    courseCodeForm.style.display = 'none';
+                    statusSection.style.display = 'block'; // แสดงตารางสถานะการตรวจงาน
+                    loadStudentStatuses(); // โหลดข้อมูลนักเรียน
+                } else {
+                    alert('รหัสวิชาไม่ถูกต้อง กรุณาลองอีกครั้ง');
+                }
+            });
+
+            // ฟังก์ชันแสดงสถานะการตรวจงานนักเรียน
+            function loadStudentStatuses() {
+                const students = [
+                    { id: '01', name: 'กณวรรธน์' },
+                { id: '02', name: 'ชวิน' },
+                { id: '03', name: 'ณัฐกิตติ์' },
+                { id: '04', name: 'ณัฐดนัย' },
+                { id: '05', name: 'ตะติยะ' },
+                { id: '06', name: 'ปกรณ์' },
+                { id: '07', name: 'พัชรพล' },
+                { id: '08', name: 'อัครัชปรวีร์' },
+                { id: '09', name: 'อุดมทรัพย์' },
+                { id: '10', name: 'วนกฤษฏ์' },
+                { id: '11', name: 'ณัฐพล' },
+                { id: '12', name: 'วิทูร' },
+                { id: '13', name: 'กิตติ์พิมล' },
+                { id: '14', name: 'ชนัญญา' },
+                { id: '15', name: 'ชนิศา' },
+                { id: '16', name: 'ชุติกาญจน์' },
+                { id: '17', name: 'ณัฐณิชา' },
+                { id: '18', name: 'ณิชากานต์' },
+                { id: '19', name: 'ทิพย์รดา' },
+                { id: '20', name: 'ธนัชญา' },
+                { id: '21', name: 'ธิดารัตน์' },
+                { id: '22', name: 'ปัณฑิตา' },
+                { id: '23', name: 'บัณพร' },
+                { id: '24', name: 'เปมิกา' },
+                { id: '25', name: 'พิมพ์ชนก' },
+                { id: '26', name: 'พิรญา' },
+                { id: '27', name: 'ภัทรกานต์' },
+                { id: '28', name: 'ภัทร์นฤน' },
+                { id: '29', name: 'ภัทรวดี' },
+                { id: '30', name: 'วรกานต์' },
+                { id: '31', name: 'วรางคณา' },
+                { id: '32', name: 'ศิรินภา' },
+                { id: '33', name: 'ธาริณี' },
+                { id: '34', name: 'ศิริรัตน์' },
+                { id: '35', name: 'สุพรรณิการ์' },
+                { id: '36', name: 'วรัญญ์รัตน์' },
+                { id: '37', name: 'เขมจิรา' },
+                { id: '38', name: 'ชนกภัทร์' },
+                { id: '39', name: 'อรอนงค์' },
+                { id: '40', name: 'ประภาสิริ' }
+                    // รายชื่อนักเรียนอื่น ๆ
+                ];
+
+                const studentStatuses = JSON.parse(localStorage.getItem('studentStatuses')) || [];
+                const tbody = document.getElementById('statusTable').getElementsByTagName('tbody')[0];
+                tbody.innerHTML = '';
+
+                students.forEach(student => {
+                    const statusData = studentStatuses.find(s => s.studentId === student.id) || {};
+
+                    const row = document.createElement('tr');
+
+                    row.innerHTML = `
+                        <td>${student.id}</td>
+                        <td>${student.name}</td>
+                        <td>${statusData.status || 'ยังไม่ได้ตรวจ'}</td>
+                        <td>${statusData.comment || 'ไม่มีคอมเม้น'}</td>
+                        <td>${statusData.timeChecked || 'ยังไม่ได้ตรวจ'}</td>
+                    `;
+
+                    tbody.appendChild(row);
+                });
+            }
+
+            // ฟังก์ชันการออกจากระบบ
+            document.getElementById('logoutButton').addEventListener('click', function() {
+                localStorage.removeItem('studentStatuses');
+                window.location.href = 'index.html'; // เปลี่ยนเส้นทางไปยังหน้าเข้าสู่ระบบ
+            });
+        });
+    </script>
+</body>
+</html>
