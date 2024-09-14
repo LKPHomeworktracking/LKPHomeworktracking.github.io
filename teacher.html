@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบครูผู้สอน</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .dashboard {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #2c2c2c;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            color: #f1f1f1;
+        }
+
+        h2, h3, h4 {
+            color: #ffffff;
+        }
+
+        button {
+            background-color: #333;
+            color: #f1f1f1;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+
+        button:hover {
+            background-color: #444;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #333;
+            color: #f1f1f1;
+        }
+
+        table, th, td {
+            border: 1px solid #444;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #444;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #f1f1f1;
+        }
+
+        .form-group input[type="text"], .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .status-message {
+            color: #ff0000;
+            font-weight: bold;
+        }
+
+        .comment-box {
+            margin-top: 10px;
+        }
+
+        #submissions-container {
+            margin-top: 20px;
+            display: none;
+        }
+
+        #courseInfo {
+            margin-top: 20px;
+            text-align: left;
+            border: 1px solid #444;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #333;
+            color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <h2>ระบบครูผู้สอน</h2>
+        <button id="view-submissions">เพิ่มสถานะการส่งงาน</button>
+        <button id="logout">ออกจากระบบ</button>
+        
+        <div id="submissions-container">
+            <h3>เพิ่มสถานะการส่งงาน</h3>
+            <form id="taskForm">
+                <div class="form-group">
+                    <label for="courseCode">รหัสวิชา:</label>
+                    <input type="text" id="courseCode" name="courseCode" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit">แสดงตารางนักเรียน</button>
+                </div>
+            </form>
+
+            <div id="courseInfo" style="display: none;">
+                <h4>ชื่อวิชา: การสื่อสารและการนำเสนอ</h4>
+                <p>ปีการศึกษา: 2567</p>
+                <p>ชั้นมัธยมศึกษาปีที่ 6 ห้อง 1</p>
+                <div class="form-group">
+                    <label for="assignmentTitle">ชื่องานที่สั่ง:</label>
+                    <input type="text" id="assignmentName" name="assignmentTitle" required>
+                </div>
+            </div>
+
+            <div id="studentTableContainer" style="display: none;">
+                <h2>ข้อมูลนักเรียน</h2>
+                <table id="studentTable">
+                    <thead>
+                        <tr>
+                            <th>เลขที่</th>
+                            <th>ชื่อ</th>
+                            <th>สถานะ</th>
+                            <th>คอมเม้น</th>
+                            <th>เวลาตรวจ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div id="statusMessage" class="status-message" style="display: none;"></div>
+                <button id="saveStatus">บันทึกสถานะการตรวจงาน</button>
+                <button id="markAllChecked">ตรวจแล้วทั้งหมด</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('view-submissions').addEventListener('click', function() {
+            document.getElementById('submissions-container').style.display = 'block';
+        });
+
+        document.getElementById('taskForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const courseCode = document.getElementById('courseCode').value;
+
+            if (courseCode === 'I30202') {
+                document.getElementById('courseInfo').style.display = 'block';
+                document.getElementById('studentTableContainer').style.display = 'block';
+                document.getElementById('taskForm').style.display = 'none';
+
+                const students = [
+                   { id: '01', name: 'กณวรรธน์' },
+                { id: '02', name: 'ชวิน' },
+                { id: '03', name: 'ณัฐกิตติ์' },
+                { id: '04', name: 'ณัฐดนัย' },
+                { id: '05', name: 'ตะติยะ' },
+                { id: '06', name: 'ปกรณ์' },
+                { id: '07', name: 'พัชรพล' },
+                { id: '08', name: 'อัครัชปรวีร์' },
+                { id: '09', name: 'อุดมทรัพย์' },
+                { id: '10', name: 'วนกฤษฏ์' },
+                { id: '11', name: 'ณัฐพล' },
+                { id: '12', name: 'วิทูร' },
+                { id: '13', name: 'กิตติ์พิมล' },
+                { id: '14', name: 'ชนัญญา' },
+                { id: '15', name: 'ชนิศา' },
+                { id: '16', name: 'ชุติกาญจน์' },
+                { id: '17', name: 'ณัฐณิชา' },
+                { id: '18', name: 'ณิชากานต์' },
+                { id: '19', name: 'ทิพย์รดา' },
+                { id: '20', name: 'ธนัชญา' },
+                { id: '21', name: 'ธิดารัตน์' },
+                { id: '22', name: 'ปัณฑิตา' },
+                { id: '23', name: 'บัณพร' },
+                { id: '24', name: 'เปมิกา' },
+                { id: '25', name: 'พิมพ์ชนก' },
+                { id: '26', name: 'พิรญา' },
+                { id: '27', name: 'ภัทรกานต์' },
+                { id: '28', name: 'ภัทร์นฤน' },
+                { id: '29', name: 'ภัทรวดี' },
+                { id: '30', name: 'วรกานต์' },
+                { id: '31', name: 'วรางคณา' },
+                { id: '32', name: 'ศิรินภา' },
+                { id: '33', name: 'ธาริณี' },
+                { id: '34', name: 'ศิริรัตน์' },
+                { id: '35', name: 'สุพรรณิการ์' },
+                { id: '36', name: 'วรัญญ์รัตน์' },
+                { id: '37', name: 'เขมจิรา' },
+                { id: '38', name: 'ชนกภัทร์' },
+                { id: '39', name: 'อรอนงค์' },
+                { id: '40', name: 'ประภาสิริ' }
+                ];
+
+                const tbody = document.getElementById('studentTable').getElementsByTagName('tbody')[0];
+                tbody.innerHTML = '';
+
+                students.forEach(student => {
+                    const row = document.createElement('tr');
+
+                    row.innerHTML = `
+                        <td>${student.id}</td>
+                        <td>${student.name}</td>
+                        <td>
+                            <select class="status" data-id="${student.id}">
+                                <option value="">เลือกสถานะ</option>
+                                <option value="not_checked">ยังไม่ได้ตรวจ</option>
+                                <option value="checked">ตรวจแล้ว</option>
+                            </select>
+                        </td>
+                        <td class="comment-box">
+                            <textarea class="comment" data-id="${student.id}" rows="3" placeholder="ใส่คอมเม้น"></textarea>
+                        </td>
+                        <td class="time-checked" data-id="${student.id}"></td>
+                    `;
+
+                    tbody.appendChild(row);
+                });
+
+                document.querySelectorAll('.status').forEach(select => {
+                    select.addEventListener('change', function() {
+                        const id = this.getAttribute('data-id');
+                        const timeCell = document.querySelector(`.time-checked[data-id="${id}"]`);
+                        const status = this.value;
+
+                        if (status === 'checked') {
+                            const now = new Date();
+                            timeCell.textContent = now.toLocaleString();
+                        } else {
+                            timeCell.textContent = '';
+                        }
+                    });
+                });
+
+                document.getElementById('saveStatus').addEventListener('click', function() {
+                    const statuses = [];
+
+                    students.forEach(student => {
+                        const status = document.querySelector(`.status[data-id="${student.id}"]`).value;
+                        const comment = document.querySelector(`.comment[data-id="${student.id}"]`).value;
+                        const timeChecked = document.querySelector(`.time-checked[data-id="${student.id}"]`).textContent;
+
+                        statuses.push({
+                            studentId: student.id,
+                            status: status,
+                            comment: comment,
+                            timeChecked: timeChecked
+                        });
+                    });
+
+                    localStorage.setItem('studentStatuses', JSON.stringify(statuses));
+                    alert('บันทึกสถานะการตรวจงานเรียบร้อย');
+                });
+
+                document.getElementById('markAllChecked').addEventListener('click', function() {
+                    const now = new Date().toLocaleString();
+
+                    students.forEach(student => {
+                        document.querySelector(`.status[data-id="${student.id}"]`).value = 'checked';
+                        document.querySelector(`.time-checked[data-id="${student.id}"]`).textContent = now;
+                    });
+
+                    alert('สถานะนักเรียนทั้งหมดถูกบันทึกเป็น "ตรวจแล้ว"');
+                });
+            } else {
+                alert('รหัสวิชาไม่ถูกต้อง');
+            }
+        });
+
+        document.getElementById('logout').addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
