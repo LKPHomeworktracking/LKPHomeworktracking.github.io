@@ -1,15 +1,15 @@
 button {
-    background-color: #fff; /* สีพื้นหลังของปุ่มเป็นสีขาว */
-    color: #333; /* สีข้อความในปุ่มเป็นสีดำหรือสีเข้ม */
-    border: 1px solid #ccc; /* ขอบของปุ่มเป็นสีเทาอ่อน */
-    padding: 10px 15px; /* การเว้นระยะภายในปุ่ม */
-    border-radius: 4px; /* มุมของปุ่มมน */
-    cursor: pointer; /* แสดงลูกศรชี้เมื่อเมาส์อยู่เหนือปุ่ม */
-    font-size: 16px; /* ขนาดของข้อความในปุ่ม */
-    margin: 10px; /* การเว้นระยะรอบๆ ปุ่ม */
+    background-color: #fff; 
+    color: #333; 
+    border: 1px solid 
+    padding: 10px 15px;
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-size: 16px; 
+    margin: 10px; 
 }
 
 button:hover {
-    background-color: #f8f9fa; /* สีพื้นหลังของปุ่มเปลี่ยนเป็นสีเทาอ่อนเมื่อเลื่อนเมาส์ไปเหนือปุ่ม */
-    border-color: #ddd; /* ขอบของปุ่มเปลี่ยนเป็นสีเทาอ่อนเมื่อเลื่อนเมาส์ไปเหนือปุ่ม */
+    background-color: #f8f9fa; 
+    border-color: #ddd;
 }
