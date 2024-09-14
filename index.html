@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello!,LKPHomeworkCheckingSystem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        .login-form {
+            width: 300px;
+            margin: 0 auto;
+        }
+        label, input {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        button {
+            width: 100%;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>HELLO! ٩(*˙︶˙*)۶ </h1>
+    <div class="login-form">
+        <label for="user-id">User ID:</label>
+        <input type="text" id="user-id" placeholder="กรอก User ID">
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" placeholder="กรอกรหัสผ่าน">
+
+        <button onclick="login()">เข้าสู่ระบบ</button>
+    </div>
+
+    <script>
+        // ข้อมูลผู้ใช้ (Static)
+        const users = [
+            { userId: '27550', name: 'กณวรรธน์', password: '6010100' },
+            { userId: '27552', name: 'ชวิน', password: '6010200' },
+            { userId: '27555', name: 'ณัฐกิตติ์', password: '6010300' },
+            { userId: '27556', name: 'ณัฐดนัย', password: '6010400' },
+            { userId: '27558', name: 'ตะติยะ', password: '6010500' },
+            { userId: '27561', name: 'ปกรณ์', password: '6010600' },
+            { userId: '27563', name: 'พัชรพล', password: '6010700' },
+            { userId: '27566', name: 'อัครัชปรวีร์', password: '6010800' },
+            { userId: '27567', name: 'อุดมทรัพย์', password: '6010900' },
+            { userId: '27601', name: 'วนกฤษฏ์', password: '6011000' },
+            { userId: '27637', name: 'ณัฐพล', password: '6011100' },
+            { userId: '27541', name: 'วิทูร', password: '6011200' },
+            { userId: '27569', name: 'กิตติ์พิมล', password: '6011300' },
+            { userId: '27570', name: 'ชนัญญา', password: '6011400' },
+            { userId: '27571', name: 'ชนิศา', password: '6011500' },
+            { userId: '27573', name: 'ชุติกาญจน์', password: '6011600' },
+            { userId: '27574', name: 'ณัฐณิชา', password: '6011700' },
+            { userId: '27576', name: 'ณิชากานต์', password: '6011800' },
+            { userId: '27577', name: 'ทิพย์รดา', password: '6011900' },
+            { userId: '27578', name: 'ธนัชญา', password: '6012000' },
+            { userId: '27589', name: 'ธิดารัตน์', password: '6012100' },
+            { userId: '27581', name: 'ปัณฑิตา', password: '6012200' },
+            { userId: '27582', name: 'บัณพร', password: '6012300' },
+            { userId: '27583', name: 'เปมิกา', password: '6012400' },
+            { userId: '27585', name: 'พิมพ์ชนก', password: '6012500' },
+            { userId: '27586', name: 'พิรญา', password: '6012600' },
+            { userId: '27588', name: 'ภัทรกานต์', password: '6012700' },
+            { userId: '27589', name: 'ภัทร์นฤน', password: '6012800' },
+            { userId: '27590', name: 'ภัทรวดี', password: '6012900' },
+            { userId: '27592', name: 'วรกานต์', password: '6013000' },
+            { userId: '27593', name: 'วรางคณา', password: '6013100' },
+            { userId: '27594', name: 'ศิรินภา', password: '6013200' },
+            { userId: '27618', name: 'ธาริณี', password: '6013300' },
+            { userId: '27669', name: 'ศิริรัตน์', password: '6013400' },
+            { userId: '27673', name: 'สุพรรณิการ์', password: '6013500' },
+            { userId: '27716', name: 'วรัญญ์รัตน์', password: '6013600' },
+            { userId: '28630', name: 'เขมจิรา', password: '6013700' },
+            { userId: '28667', name: 'ชนกภัทร์', password: '6013800' },
+            { userId: '28673', name: 'อรอนงค์', password: '6013900' },
+            { userId: '29542', name: 'ประภาสิริ', password: '6014000' },
+            { userId: '@666', name: 'admin_ja', password: '135790' }, 
+            { userId: '@407', name: 'คุณครู', password: '40707' }  
+        ];
+
+        // ฟังก์ชันล็อกอิน
+        function login() {
+            const userIdInput = document.getElementById('user-id').value.trim();
+            const passwordInput = document.getElementById('password').value.trim();
+            const user = users.find(user => user.userId === userIdInput);
+
+            if (user && user.password === passwordInput) {
+                alert(`ยินดีต้อนรับ, ${user.name}`);
+                // เช็คประเภทผู้ใช้เพื่อเปลี่ยนหน้า
+                switch (true) {
+                    case user.userId.startsWith('2'):
+                        // นักเรียน
+                        window.location.href = 'student.html';
+                        break;
+                    case user.userId === '@407':
+                        // ครู
+                        window.location.href = 'teacher.html';
+                        break;
+                    case user.userId === '@666':
+                        // แอดมิน
+                        window.location.href = 'admin.html';
+                        break;
+                    default:
+                        alert('ไม่พบประเภทผู้ใช้');
+                        break;
+                }
+            } else {
+                alert('รหัสผ่านหรือ User ID ไม่ถูกต้อง');
+            }
+        }
+    </script>
+
+</body>
+</html> 
